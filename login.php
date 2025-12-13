@@ -17,10 +17,10 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout_success') {
 if ($_POST && isset($_POST['cep_telefonu'])) {
     $database = new Database();
     $db = $database->getConnection();
-    
+  
     // Telefon numarasını temizle ve formatla
     $cep_telefonu = $_POST['cep_telefonu'];
-    
+    $cep_telefonu = preg_replace('/[^0-9]/', '', $cep_telefonu);
     // Hata ayıklama için
     error_log("Gönderilen telefon: " . $cep_telefonu);
     
@@ -29,6 +29,8 @@ if ($_POST && isset($_POST['cep_telefonu'])) {
     error_log("Veritabanı formatı: " . $cep_telefonu);
     
     $sifre = $_POST['sifre'];
+    $kod = $_POST['kod'];
+    $telefon = $kod . $cep_telefonu;
     
     if (empty($cep_telefonu) || empty($sifre)) {
         $error = $translations['mesaj2'];
@@ -36,7 +38,7 @@ if ($_POST && isset($_POST['cep_telefonu'])) {
         // Önce +90 eklenmiş formatta ara
         $query = "SELECT * FROM kullanicilar WHERE cep_telefonu = :cep_telefonu AND aktif = 1";
         $stmt = $db->prepare($query);
-        $stmt->bindParam(":cep_telefonu", $cep_telefonu);
+        $stmt->bindParam(":cep_telefonu", $telefon);
         
         if ($stmt->execute()) {
             if ($stmt->rowCount() == 1) {
@@ -345,9 +347,9 @@ if ($_POST && isset($_POST['cep_telefonu'])) {
             <a href="?lang=tr" class="btn btn-sm btn-outline-secondary <?php echo $lang == 'tr' ? 'active' : ''; ?>">Türkçe</a>
             <a href="?lang=en" class="btn btn-sm btn-outline-secondary <?php echo $lang == 'en' ? 'active' : ''; ?>">English</a>
         </div>
-     
+     <input type="hidden" id="kod" name="kod" value="+90">
     </form>
-    <input type="hidden" id="kod" name="kod" value="+90">
+    
 </body>
    <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/all.min.js"></script>
