@@ -27,6 +27,7 @@ if ($_POST) {
         $eposta = $_POST['e_posta'];
         $kod = $_POST['kod'];
         $telefon = $kod . $_POST['cep_telefonu'];
+        $telefon = preg_replace('/[^0-9+]/', '', $telefon);
 
         // Validasyonlar
         if (empty($cep_telefonu) || strlen($cep_telefonu) < 10) {
@@ -65,11 +66,11 @@ if ($_POST) {
 
                 // WhatsApp mesajı gönder (simülasyon)
                 $message = "DostApp doğrulama kodunuz: " . $dogrulama_kodu;
-                $whatsapp_sent = sendWhatsAppMessage($cep_telefonu, $message);
+                $whatsapp_sent = sendWhatsAppMessage($telefon, $message);
 
                 if ($whatsapp_sent) {
                     $show_verification = true;
-                    $registered_phone = $cep_telefonu;
+                    $registered_phone = $telefon;
                     $success = "Doğrulama kodunuz WhatsApp ile gönderildi.";
                 } else {
                     $error = "WhatsApp mesajı gönderilemedi. Lütfen tekrar deneyin.";

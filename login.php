@@ -58,45 +58,16 @@ if ($_POST && isset($_POST['cep_telefonu'])) {
                     
                     // Dil desteği eklendi
                     error_log($translations['mesaj3']);
-                    header("Location: index.php");
+                    
+                    header("Location: giris.php");
                     exit;
                 } else {
                     $error = $translations['hata1'];
                 }
-            } else {
-                // +90 formatında bulunamadıysa, sadece numarayı ara (544... formatında)
-                $simple_phone = substr($cep_telefonu, 3); // +90'ı kaldır
-                error_log("+90 formatında bulunamadı, basit format deneniyor: " . $simple_phone);
-                
-                $query2 = "SELECT * FROM kullanicilar WHERE cep_telefonu = :cep_telefonu AND aktif = 1";
-                $stmt2 = $db->prepare($query2);
-                $stmt2->bindParam(":cep_telefonu", $simple_phone);
-                
-                if ($stmt2->execute() && $stmt2->rowCount() == 1) {
-                    $row = $stmt2->fetch(PDO::FETCH_ASSOC);
-                    
-                    if (password_verify($sifre, $row['sifre'])) {
-                        $_SESSION['kullanici_id'] = $row['id'];
-                        $_SESSION['kullanici_adi'] = $row['ad'] . ' ' . $row['soyad'];
-                        $_SESSION['cep_telefonu'] = $row['cep_telefonu'];
-                        $_SESSION['lang'] = $lang;
-                        
-                        // Son giriş zamanını güncelle
-                        $update_query = "UPDATE kullanicilar SET son_giris = NOW() WHERE id = :id";
-                        $update_stmt = $db->prepare($update_query);
-                        $update_stmt->bindParam(":id", $row['id']);
-                        $update_stmt->execute();
-                        
-                        error_log($translations['mesaj3']);
-                        header("Location: index.php");
-                        exit;
-                    } else {
-                        $error = $translations['hata1'];
-                    }
                 } else {
                     $error = $translations['hata2'];
                 }
-            }
+            
         } else {
             $error = $translations['hata3'];
         }
