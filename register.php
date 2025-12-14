@@ -125,7 +125,126 @@ if ($_POST) {
     <title><?php echo $translations['kayit_ol']; ?> - <?php echo $translations['site_adi']; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/intlTelInput.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+    .iti { width: 100%; }
+    .iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/img/flags.png");}
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/img/flags@2x.png");}
+    }
+
+        input[type=text]{
+            margin: auto;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: transparent;
+            border: 0px 0px 0px 0 px solid #ccc;
+            border-radius: 14px;
+            font-size: 14px;
+            background-color: white;
+            background-position: 10px 10px; 
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+        }
+        input[type=text1]{
+            margin: auto;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: transparent;
+            border: 0px 0px 0px 0 px solid #ccc;
+            border-radius: 14px;
+            font-size: 14px;
+            background-color: white;
+            background-image: url('img/password.png');
+            background-position: 10px 10px; 
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+        }
+
+        .password-container {
+            position: relative;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 12px 40px 12px 12px; /* ✅ SAĞDAN 40px boşluk (icon için) */
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        #toggleIcon {
+            position: absolute;
+            right: 12px;           /* ✅ SAĞ kenardan 12px */
+            top: 50%;              /* ✅ Dikey ortala */
+            transform: translateY(-115%); /* ✅ Tam ortala */
+            font-size: 18px;
+            color: #666;
+            cursor: pointer;
+            z-index: 10;
+            background: white;
+            padding: 2px;
+            border-radius: 4px;
+            transition: color 0.3s;
+        }
+
+        #toggleIcon:hover {
+            color: #007bff;
+            background: #f8f9fa;
+        }
+
+        input[type=password] {
+
+            width: 100%;
+            box-sizing: border-box;
+            background-color: transparent;
+            border: 2px 0px 0px 0 px solid #ccc;
+            border-radius: 14px;
+            font-size: 14px;
+            background-color: white;
+            background-image: url('img/password.png');
+            background-position: 10px 10px; 
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+          
+            
+        }
+
+         form [id="toggleIcon"] {
+            position: absolute;
+            right: 12px;           /* ✅ SAĞ kenardan 12px */
+            top: 50%;              /* ✅ Dikey ortala */
+            transform: translateY(-50%); /* ✅ Tam ortala */
+            font-size: 18px;
+            color: #666;
+            cursor: pointer;
+            z-index: 10;
+            background: white;
+            padding: 2px;
+            border-radius: 4px;
+            transition: color 0.3s;
+        }
+         form [id="toggleIcon1"] {
+            position: absolute;
+            right: 12px;           /* ✅ SAĞ kenardan 12px */
+            top: 50%;              /* ✅ Dikey ortala */
+            transform: translateY(-50%); /* ✅ Tam ortala */
+            font-size: 18px;
+            color: #666;
+            cursor: pointer;
+            z-index: 10;
+            background: white;
+            padding: 2px;
+            border-radius: 4px;
+            transition: color 0.3s;
+        }
+            
+
+    </style>
 </head>
 <body class="bg-light">
     <div class="container">
@@ -164,7 +283,7 @@ if ($_POST) {
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label class="form-label"><?php echo $translations['cinsiyet']; ?></label>
                                 <div class="row">
                                     <div class="col-6">
@@ -183,28 +302,40 @@ if ($_POST) {
                                 <input type="hidden" name="cinsiyet" id="selectedGender" required>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label class="form-label"><?php echo $translations['telefon']; ?></label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                    <input type="tel" class="form-control" name="cep_telefonu" placeholder="5xx xxx xx xx" value="<?php echo isset($_POST['cep_telefonu']) ? htmlspecialchars($_POST['cep_telefonu']) : ''; ?>" required>
+                                    <input type="tel" class="form-control" id="cep_telefonu" name="cep_telefonu" placeholder="5xx xxx xx xx" value="<?php echo isset($_POST['cep_telefonu']) ? htmlspecialchars($_POST['cep_telefonu']) : ''; ?>" required>
                                 </div>
                                 <small class="form-text text-muted"><?php echo $translations['dogrulama_kodu']; ?></small>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-2">
+                                <label class="form-label"><?php echo $translations['e-posta']; ?></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope" color="blue"></i></span>
+                                    <input type="mail" class="form-control" id="e-posta" name="e-posta" placeholder="xxxx@gmail.com" value="<?php echo isset($_POST['mail']) ? htmlspecialchars($_POST['mail']) : ''; ?>" required>
+                                </div>
+                                <small class="form-text text-muted"><?php echo $translations['dogrulama_kodu']; ?></small>
+                            </div>
+
+                            <div class="mb-2">
                                 <label class="form-label"><?php echo $translations['sifre']; ?></label>
-                                <input type="password" class="form-control" name="sifre" id="password" required minlength="6">
+                                <div class="password-container">
+                                <input type="password" class="form-control" name="sifre" id="sifre" required minlength="6">
+                                <i id="toggleIcon" class="fa fa-eye-slash" onclick="togglePasswordVisibility()" style="font-size:16px"></i>
                                 <div class="form-text">
-                                    <small><?php echo $translations['hata6']; ?></small>
+                                    <small><?php echo $translations['hata6']; ?></small></div>
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label class="form-label"><?php echo $translations['sifre_tekrar']; ?></label>
+                                <div class="password-container">
                                 <input type="password" class="form-control" name="sifre_tekrar" id="confirmPassword" required>
+                                 <i id="toggleIcon" class="fa fa-eye-slash" onclick="togglePasswordVisibility1()" style="font-size:16px"></i>
                                 <div class="form-text">
-                                    <small id="passwordMatch"></small>
+                                    <small id="passwordMatch"></small></div>
                                 </div>
                             </div>
 
@@ -218,6 +349,7 @@ if ($_POST) {
                             <button type="submit" class="btn btn-primary w-100 py-2">
                                 <i class="fas fa-user-plus me-2"></i><?php echo $translations['kayit_ol']; ?>
                             </button>
+                            <input type="hidden" id="kod" name="kod" value="+90"> <!-- gizli ülke kodu -->
                         </form>
                         <?php else: ?>
                         <!-- Doğrulama Formu -->
@@ -255,11 +387,12 @@ if ($_POST) {
                         <div class="text-center mt-3">
                             <a href="login.php?lang=<?php echo $lang; ?>">Zaten hesabınız var mı? Giriş yapın</a>
                         </div>
-                        
-                        <div class="text-center mt-2">
-                            <a href="register.php?lang=tr">Türkçe</a> | 
-                            <a href="register.php?lang=en">English</a>
-                        </div>
+                        <div class="text-center mt-3">
+                            <div class="btn-group" role="group">
+                                <a href="?lang=tr" class="btn btn-sm btn-outline-secondary <?php echo $lang == 'tr' ? 'active' : ''; ?>">Türkçe</a>
+                                <a href="?lang=en" class="btn btn-sm btn-outline-secondary <?php echo $lang == 'en' ? 'active' : ''; ?>">English</a>
+                            </div>
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -285,8 +418,40 @@ if ($_POST) {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/all.min.js"></script>
+    <script src="js/intlTelInput.min.js"></script>
+
     <script>
+        // Telefon input başlatma
+             // Telefon input başlatma
+        const input = document.querySelector("#cep_telefonu");
+        
+        // intlTelInput başlat - BASİT AYARLAR
+        const iti = window.intlTelInput(input, {
+            initialCountry: "tr",
+            preferredCountries: ["tr", "us", "gb", "de", "fr"],
+            separateDialCode: true,
+            nationalMode: false, // Uluslararası format
+            
+        });
+
+        let seciliUlkeKodu = '+90';
+
+        input.addEventListener('countrychange', function() {
+            seciliUlkeData = iti.getSelectedCountryData();
+            seciliUlkeKodu = '+' + seciliUlkeData.dialCode;
+            
+            // JS değişkeni → PHP hidden input
+            document.getElementById("kod").value = seciliUlkeKodu;
+            
+            console.log('Ülke Kodu:', seciliUlkeKodu);  // +90
+        });
+
+        // Form submit öncesi garanti
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById("ulke_kodu").value = seciliUlkeKodu;
+        });
         // Cinsiyet seçimi
         function selectGender(gender) {
             document.querySelectorAll('.gender-option').forEach(option => {
@@ -298,7 +463,7 @@ if ($_POST) {
 
         // Şifre eşleşme kontrolü
         document.getElementById('confirmPassword').addEventListener('input', function() {
-            const password = document.getElementById('password').value;
+            const password = document.getElementById('sifre').value;
             const confirmPassword = this.value;
             const matchText = document.getElementById('passwordMatch');
             
@@ -306,24 +471,12 @@ if ($_POST) {
                 matchText.textContent = '';
                 matchText.className = 'form-text';
             } else if (password === confirmPassword) {
-                matchText.textContent = '✓ Şifreler eşleşiyor';
+                matchText.textContent = '✓ <?php echo $translations['uyusuyor']; ?>';
                 matchText.className = 'form-text text-success';
             } else {
-                matchText.textContent = '✗ Şifreler eşleşmiyor';
+                matchText.textContent = '✗ <?php echo $translations['uyusmuyor']; ?>';
                 matchText.className = 'form-text text-danger';
             }
-        });
-
-        // Telefon formatı
-        document.querySelector('input[name="cep_telefonu"]').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.startsWith('0')) {
-                value = value.substring(1);
-            }
-            if (value.length > 0) {
-                value = value.match(new RegExp('.{1,3}', 'g')).join(' ');
-            }
-            e.target.value = value;
         });
 
         // Doğrulama kodu input kontrolü
@@ -354,6 +507,50 @@ if ($_POST) {
                 return false;
             }
         });
-    </script>
+    
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById('sifre');
+            var toggleIcon = document.getElementById('toggleIcon');
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text1";
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        }
+
+        function togglePasswordVisibility1() {
+            var passwordInput = document.getElementById('confirmPassword');
+            var toggleIcon = document.getElementById('toggleIcon1');
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text1";
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        }
+        
+        document.getElementById('cep_telefonu').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Sadece rakamları tut
+            value = value.substring(0, 10); // Maks 10 hane
+            
+            // Doğru formatlama: 5XX XXX XX XX (toplam 10 rakam)
+            let formatted = '';
+            if (value.length > 0) formatted += value.substring(0, 3);  // 5XX
+            if (value.length > 3) formatted += ' ' + value.substring(3, 6); // XXX
+            if (value.length > 6) formatted += ' ' + value.substring(6, 8); // XX
+            if (value.length > 8) formatted += ' ' + value.substring(8, 10); // XX
+            
+            e.target.value = formatted.trim();
+        });
+
+
+</script>
 </body>
 </html>
