@@ -162,6 +162,7 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
       flex: 1;
       position: relative;
       height: calc(100vh - 60px);
+
     }
 
     #map {
@@ -284,8 +285,8 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
     }
     
     .balloon-user-img {
-      width: 60px;
-      height: 60px;
+      width: 100px;
+      height:100px;
       border-radius: 50%;
       object-fit: cover;
       margin-right: 15px;
@@ -357,11 +358,15 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
         align-items: center;
         justify-content: center;
         box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+       
+       
     }
 
     .ymaps-2-1-79-cluster__content {
         font-size: 14px;
         font-weight: bold;
+        
+        
     }
 
     /* Yandex Maps Örnek Stilleri */
@@ -372,6 +377,7 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
         color: #333;
         border-bottom: 2px solid #667eea;
         padding-bottom: 5px;
+        
     }
 
     .ballon_body {
@@ -379,6 +385,7 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
         line-height: 1.5;
         color: #666;
         margin-bottom: 10px;
+                
     }
 
     .ballon_footer {
@@ -452,6 +459,7 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
     .friend-detail-info {
         font-size: 13px;
         line-height: 1.4;
+        
     }
 
     .friend-detail-info p {
@@ -460,6 +468,7 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
         background: #f8f9fa;
         border-radius: 4px;
         border-left: 3px solid #667eea;
+
     }
 
     .friend-detail-info i {
@@ -495,6 +504,8 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
       }
     }
 
+    
+
   </style>
 </head>
 
@@ -502,7 +513,7 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
   <!-- Top Navbar -->
   <nav class="top-navbar">
     <div class="nav-left">
-       <a class="navbar-brand" href="index.php">
+       <a class="navbar-brand" href="giris.php">
       <img src="img/friends.png" alt="Logo"> <?php echo $translations['site_adi']; ?>
     </a>
     </div>
@@ -806,6 +817,7 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
                         // Cluster balonunda kullanılacak veriler
                         balloonContentHeader: friend.ad + ' ' + friend.soyad,
                         balloonContentBody: `
+                        <div class="balloon-content">
                             <div class="friend-detail-info">
                                 <img src="${friend.profil_resmi || (friend.cinsiyet === 'kadin' ? 'https://cdn-icons-png.flaticon.com/512/847/847969.png' : 'https://cdn-icons-png.flaticon.com/512/847/847970.png')}" 
                                      alt="${friend.ad} ${friend.soyad}" 
@@ -816,6 +828,7 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
                                 <p><i class="fas fa-ruler"></i> <strong>Uzaklık:</strong> ${distance.toFixed(0)} m</p>
                                 <p><i class="fas fa-map-marker-alt"></i> <strong>Konum:</strong> ${friend.enlem}, ${friend.boylam}</p>
                                 <p><i class="fas fa-city"></i> <strong>Şehir:</strong> ${friend.sehir || 'Belirtilmemiş'}</p>
+                            </div>
                             </div>
                         `,
                         balloonContentFooter: 'FrendsApp - Arkadaş Konumu',
@@ -859,9 +872,10 @@ $user_lon = !empty($user_profile['boylam']) ? $user_profile['boylam'] : 28.9784;
                 clusterBalloonPanelMaxMapArea: 0,
                 // Balon içeriği genişliği
                 clusterBalloonContentLayoutWidth: 400,
+                clusterBalloonContentLayoutHeight: 500,
                 // Özel layout'ları kullan
                 clusterBalloonItemContentLayout: customItemContentLayout,
-                clusterBalloonLeftColumnWidth: 120,
+                clusterBalloonLeftColumnWidth: 150,
                 // Sol kolon için özel layout
                 clusterBalloonLeftContentLayout: customListLayout,
                 clusterIconLayout: 'default#pieChart',
