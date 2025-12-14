@@ -24,6 +24,9 @@ if ($_POST) {
         $ad = trim($_POST['ad']);
         $soyad = trim($_POST['soyad']);
         $cinsiyet = $_POST['cinsiyet'];
+        $eposta = $_POST['e_posta'];
+        $kod = $_POST['kod'];
+        $telefon = $kod . $_POST['cep_telefonu'];
 
         // Validasyonlar
         if (empty($cep_telefonu) || strlen($cep_telefonu) < 10) {
@@ -38,7 +41,7 @@ if ($_POST) {
             // Telefon numarası kontrolü
             $check_query = "SELECT id FROM kullanicilar WHERE cep_telefonu = :cep_telefonu";
             $check_stmt = $db->prepare($check_query);
-            $check_stmt->bindParam(":cep_telefonu", $cep_telefonu);
+            $check_stmt->bindParam(":cep_telefonu", $telefon);
             $check_stmt->execute();
 
             if ($check_stmt->rowCount() > 0) {
@@ -50,11 +53,12 @@ if ($_POST) {
 
                 // Geçici kullanıcı kaydı
                 $_SESSION['temp_user'] = [
-                    'cep_telefonu' => $cep_telefonu,
+                    'cep_telefonu' => $telefon,
                     'sifre' => password_hash($sifre, PASSWORD_DEFAULT),
                     'ad' => $ad,
                     'soyad' => $soyad,
                     'cinsiyet' => $cinsiyet,
+                    'e_posta' => $eposta,
                     'dogrulama_kodu' => $dogrulama_kodu,
                     'dogrulama_zamani' => $dogrulama_zamani
                 ];
@@ -90,15 +94,18 @@ if ($_POST) {
                 unset($_SESSION['temp_user']);
             } else {
                 // Kullanıcıyı veritabanına kaydet
-                $query = "INSERT INTO kullanicilar (cep_telefonu, sifre, ad, soyad, cinsiyet, dogrulama_kodu, aktif, kayit_tarihi) 
-                         VALUES (:cep_telefonu, :sifre, :ad, :soyad, :cinsiyet, '', 1, NOW())";
+                $query = "INSERT INTO kullanicilar (cep_telefonu, e_posta, sifre, ad, soyad, cinsiyet, dogrulama_kodu, dogrulama_kodu_zamani, aktif, kayit_tarihi) 
+                         VALUES (:cep_telefonu, :e_posta, :sifre, :ad, :soyad, :cinsiyet, :dogrulama_kodu, :dogrulama_kodu_zamani, 1, NOW())";
                 
                 $stmt = $db->prepare($query);
                 $stmt->bindParam(":cep_telefonu", $temp_user['cep_telefonu']);
+                $stmt->bindParam(":e_posta", $temp_user['e_posta']);
                 $stmt->bindParam(":sifre", $temp_user['sifre']);
                 $stmt->bindParam(":ad", $temp_user['ad']);
                 $stmt->bindParam(":soyad", $temp_user['soyad']);
                 $stmt->bindParam(":cinsiyet", $temp_user['cinsiyet']);
+                $stmt->bindParam(":dogrulama_kodu", $temp_user['dogrulama_kodu']);
+                $stmt->bindParam(":dogrulama_kodu_zamani", $temp_user['dogrulama_zamani']);
                 
                 if ($stmt->execute()) {
                     $success = "Kayıt başarılı! Giriş yapabilirsiniz.";
@@ -314,7 +321,7 @@ if ($_POST) {
                                 <label class="form-label"><?php echo $translations['e-posta']; ?></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-envelope" color="blue"></i></span>
-                                    <input type="mail" class="form-control" id="e-posta" name="e-posta" placeholder="xxxx@gmail.com" value="<?php echo isset($_POST['mail']) ? htmlspecialchars($_POST['mail']) : ''; ?>" required>
+                                    <input type="mail" class="form-control" id="e_posta" name="e_posta" placeholder="xxxx@gmail.com" required>
                                 </div>
                                 <small class="form-text text-muted"><?php echo $translations['dogrulama_kodu']; ?></small>
                             </div>
@@ -361,7 +368,7 @@ if ($_POST) {
                                     <strong><?php echo $registered_phone; ?></strong> numarasına doğrulama kodu gönderildi.
                                 </p>
                             </div>
-
+                            <?php echo $message = "DostApp doğrulama kodunuz: " . $dogrulama_kodu;?>
                             <div class="mb-3">
                                 <label class="form-label">Doğrulama Kodu</label>
                                 <input type="text" class="form-control verification-input" name="verification_code" maxlength="6" pattern="[0-9]{6}" required autocomplete="off">
