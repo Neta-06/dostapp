@@ -200,6 +200,21 @@ if ($_POST) {
             transition: color 0.3s;
         }
 
+        #toggleIcon1 {
+            position: absolute;
+            right: 12px;           /* ✅ SAĞ kenardan 12px */
+            top: 50%;              /* ✅ Dikey ortala */
+            transform: translateY(-55%); /* ✅ Tam ortala */
+            font-size: 18px;
+            color: #666;
+            cursor: pointer;
+            z-index: 10;
+            background: white;
+            padding: 2px;
+            border-radius: 4px;
+            transition: color 0.3s;
+        }
+
         #toggleIcon:hover {
             color: #007bff;
             background: #f8f9fa;
@@ -341,7 +356,7 @@ if ($_POST) {
                                 <label class="form-label"><?php echo $translations['sifre_tekrar']; ?></label>
                                 <div class="password-container">
                                 <input type="password" class="form-control" name="sifre_tekrar" id="confirmPassword" required>
-                                 <i id="toggleIcon" class="fa fa-eye-slash" onclick="togglePasswordVisibility1()" style="font-size:16px"></i>
+                                 <i id="toggleIcon1" class="fa fa-eye-slash" onclick="togglePasswordVisibility1()" style="font-size:16px"></i>
                                 <div class="form-text">
                                     <small id="passwordMatch"></small></div>
                                 </div>
@@ -393,7 +408,7 @@ if ($_POST) {
                         <?php endif; ?>
 
                         <div class="text-center mt-3">
-                            <a href="login.php?lang=<?php echo $lang; ?>">Zaten hesabınız var mı? Giriş yapın</a>
+                            <a href="login.php?lang=<?php echo $lang; ?>"><?php echo $translations['hesap']; ?></a>
                         </div>
                         <div class="text-center mt-3">
                             <div class="btn-group" role="group">
@@ -412,7 +427,7 @@ if ($_POST) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Kullanım Koşulları</h5>
+                    <h5 class="modal-title"><?php echo $translations['kullanim']; ?></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -420,7 +435,7 @@ if ($_POST) {
                     <p>Uygulamayı kullanarak veri işleme politikamızı kabul etmiş olursunuz.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $translations['cikis']; ?></button>
                 </div>
             </div>
         </div>
@@ -558,7 +573,6 @@ if ($_POST) {
             e.target.value = formatted.trim();
         });
 
-
-</script>
+    </script>
 </body>
 </html>

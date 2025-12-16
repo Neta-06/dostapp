@@ -236,8 +236,10 @@ if ($_POST && isset($_POST['cep_telefonu'])) {
 
         #center{
             margin: auto;
-            
-            padding: 5px;
+            font-style: italic;
+            padding: 10px;
+            font-weight: bold;
+
         }
 
         .logo{
